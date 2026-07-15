@@ -208,10 +208,6 @@
       transform: none;
     }
 
-    .controls button {
-      flex-shrink: 0;
-    }
-
     .install-btn {
       padding: 9px 14px;
       background: #fff;
@@ -546,14 +542,13 @@
       </div>
     </header>
 
-    <form class="controls" id="search-form">
+    <div class="controls" id="search-form">
       <label for="date">조회 날짜</label>
       <div class="date-field">
         <input type="date" id="date" name="date" required>
         <span class="date-weekday" id="date-weekday"></span>
       </div>
-      <button type="submit" id="submit-btn">조회</button>
-    </form>
+    </div>
 
     <div class="status-bar" id="status-bar"></div>
     <div id="results"></div>
@@ -571,7 +566,6 @@
     const dateWeekday = document.getElementById("date-weekday");
     const statusBar = document.getElementById("status-bar");
     const results = document.getElementById("results");
-    const submitBtn = document.getElementById("submit-btn");
     const bookingLink = document.getElementById("booking-link");
     const footerNote = document.getElementById("footer-note");
 
@@ -588,9 +582,15 @@
       dateWeekday.textContent = `${weekday}요일`;
     }
 
+    function onDateChange() {
+      updateDateWeekday();
+      if (dateInput.value) {
+        loadAvailability();
+      }
+    }
+
     updateDateWeekday();
-    dateInput.addEventListener("change", updateDateWeekday);
-    dateInput.addEventListener("input", updateDateWeekday);
+    dateInput.addEventListener("change", onDateChange);
 
     function formatHourLabel(slot) {
       if (slot.nextDay) {
@@ -655,7 +655,7 @@
       results.innerHTML = Array.from({ length: 3 }, () => '<div class="skeleton"></div>').join("");
       statusBar.textContent = "조회 중...";
       statusBar.classList.remove("error");
-      submitBtn.disabled = true;
+      dateInput.disabled = true;
     }
 
     async function loadAvailability() {
@@ -689,14 +689,9 @@
         statusBar.textContent = "";
         statusBar.classList.add("error");
       } finally {
-        submitBtn.disabled = false;
+        dateInput.disabled = false;
       }
     }
-
-    document.getElementById("search-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      loadAvailability();
-    });
 
     let appVersion = null;
     const VERSION_POLL_MS = 30_000;
