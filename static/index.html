@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카바스 세차장 예약 현황</title>
+  <meta name="description" content="카바스 실내셀프세차장 베이별 예약 현황">
+  <meta name="theme-color" content="#059669">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="카바스 예약">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon.svg">
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --bg-accent: #e8f5ef;
+      --surface: #ffffff;
+      --surface-muted: #f8fafc;
+      --text: #0f172a;
+      --text-secondary: #334155;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-soft: #d1fae5;
+      --danger: #e11d48;
+      --danger-soft: #ffe4e6;
+      --neutral: #94a3b8;
+      --neutral-soft: #f1f5f9;
+      --radius: 16px;
+      --radius-sm: 12px;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 12px 32px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      background:
+        radial-gradient(circle at top left, var(--bg-accent) 0%, transparent 42%),
+        linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 16px 28px;
+    }
+
+    header {
+      margin-bottom: 16px;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.28);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: 1.375rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .subtitle a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .subtitle a:hover {
+      text-decoration: underline;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 10px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 12px;
+    }
+
+    .controls label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .date-field {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .date-field input[type="date"] {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface-muted);
+    }
+
+    .date-field input[type="date"]:focus {
+      outline: 3px solid rgba(5, 150, 105, 0.18);
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .date-weekday {
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-hover);
+      font-size: 0.875rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    button {
+      padding: 10px 18px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.22);
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .controls button {
+      flex-shrink: 0;
+    }
+
+    .install-btn {
+      padding: 9px 14px;
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary-soft);
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .install-btn:hover {
+      background: var(--primary-soft);
+      transform: none;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+      min-height: 1.25rem;
+    }
+
+    .status-bar::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--neutral);
+      flex-shrink: 0;
+    }
+
+    .status-bar:not(.error):not(:empty)::before {
+      background: var(--primary);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.15);
+    }
+
+    .status-bar.error {
+      color: var(--danger);
+    }
+
+    .status-bar.error::before {
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.12);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 56px 20px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: var(--radius);
+      height: 280px;
+      margin-bottom: 16px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    footer {
+      margin-top: 18px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .matrix-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 2px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .matrix-wrap {
+      overflow-x: hidden;
+      padding: 14px 12px 10px;
+      background: var(--surface-muted);
+    }
+
+    .matrix-table {
+      border-collapse: separate;
+      border-spacing: 6px 4px;
+      table-layout: fixed;
+      width: 100%;
+      font-size: 0.875rem;
+    }
+
+    .matrix-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .matrix-table th,
+    .matrix-table td {
+      text-align: center;
+      vertical-align: middle;
+      border: none;
+    }
+
+    .matrix-table th {
+      color: var(--text-secondary);
+      font-weight: 800;
+      font-size: 0.8125rem;
+      padding: 0 2px 4px;
+    }
+
+    .matrix-table th.bay-col {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .matrix-table th.time-col {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .matrix-table td.time-col {
+      width: 11%;
+      font-weight: 800;
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      line-height: 1.2;
+      padding-right: 4px;
+    }
+
+    .matrix-table td.bay-col {
+      width: 17.8%;
+      padding: 0;
+    }
+
+    .matrix-table tbody tr:nth-child(even) td.time-col {
+      color: var(--muted);
+    }
+
+    .hour-label .next-day {
+      display: inline-block;
+      margin-left: 2px;
+      padding: 1px 4px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: var(--text-secondary);
+      font-size: 0.625rem;
+      font-weight: 800;
+      vertical-align: top;
+    }
+
+    .slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 30px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .slot.available {
+      background: var(--primary-soft);
+      border-color: #6ee7b7;
+      color: var(--primary-hover);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .slot.booked {
+      background: var(--danger-soft);
+      border-color: #fda4af;
+      color: #be123c;
+    }
+
+    .slot.closed {
+      background: var(--neutral-soft);
+      border-color: var(--border);
+      color: var(--neutral);
+    }
+
+    a.slot.available {
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    a.slot.available::after {
+      content: "예약";
+    }
+
+    a.slot.available:hover {
+      background: #a7f3d0;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(5, 150, 105, 0.18);
+    }
+
+    a.slot.available:active {
+      transform: translateY(0);
+    }
+
+    .slot.booked::after {
+      content: "마감";
+    }
+
+    .slot.closed::after {
+      content: "—";
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px 16px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      border: 2px solid transparent;
+    }
+
+    .legend-swatch.available {
+      background: var(--primary-soft);
+      border-color: #6ee7b7;
+    }
+
+    .legend-swatch.booked {
+      background: var(--danger-soft);
+      border-color: #fda4af;
+    }
+
+    .legend-swatch.closed {
+      background: var(--neutral-soft);
+      border-color: var(--border-strong);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px 12px 24px;
+      }
+
+      h1 {
+        font-size: 1.125rem;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+      }
+
+      .slot {
+        min-height: 26px;
+        font-size: 0.625rem;
+      }
+
+      a.slot.available::after {
+        content: "";
+      }
+
+      .slot.booked::after,
+      .slot.closed::after {
+        content: "";
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-row">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">C</div>
+          <div>
+            <h1>카바스 세차장</h1>
+            <p class="subtitle">
+              실시간 베이 예약 현황 ·
+              <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">네이버 예약</a>
+            </p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="install-btn" id="install-btn" hidden>앱 설치</button>
+        </div>
+      </div>
+    </header>
+
+    <form class="controls" id="search-form">
+      <label for="date">조회 날짜</label>
+      <div class="date-field">
+        <input type="date" id="date" name="date" required>
+        <span class="date-weekday" id="date-weekday"></span>
+      </div>
+      <button type="submit" id="submit-btn">조회</button>
+    </form>
+
+    <div class="status-bar" id="status-bar"></div>
+    <div id="results"></div>
+
+    <footer id="footer-note">
+      네이버 비공식 API 기반 · 선택일 06시~익일 05시 기준
+    </footer>
+  </div>
+
+  <script>
+    const SLOT_LABEL = { available: "예약 가능", booked: "예약 마감", closed: "예약 불가" };
+    const WEEKDAY_KO = ["일", "월", "화", "수", "목", "금", "토"];
+
+    const dateInput = document.getElementById("date");
+    const dateWeekday = document.getElementById("date-weekday");
+    const statusBar = document.getElementById("status-bar");
+    const results = document.getElementById("results");
+    const submitBtn = document.getElementById("submit-btn");
+    const bookingLink = document.getElementById("booking-link");
+    const footerNote = document.getElementById("footer-note");
+
+    dateInput.value = new Date().toISOString().slice(0, 10);
+
+    function updateDateWeekday() {
+      const value = dateInput.value;
+      if (!value) {
+        dateWeekday.textContent = "";
+        return;
+      }
+      const [year, month, day] = value.split("-").map(Number);
+      const weekday = WEEKDAY_KO[new Date(year, month - 1, day).getDay()];
+      dateWeekday.textContent = `${weekday}요일`;
+    }
+
+    updateDateWeekday();
+    dateInput.addEventListener("change", updateDateWeekday);
+    dateInput.addEventListener("input", updateDateWeekday);
+
+    function formatHourLabel(slot) {
+      if (slot.nextDay) {
+        return `<span class="hour-label">${slot.hour}시<span class="next-day">+</span></span>`;
+      }
+      return `<span class="hour-label">${slot.hour}시</span>`;
+    }
+
+    function formatBayLabel(name) {
+      return name.replace("번", "");
+    }
+
+    function renderSlotCell(slot) {
+      const status = slot ? slot.status : "closed";
+      const label = SLOT_LABEL[status];
+      if (status === "available" && slot?.bookingUrl) {
+        return `<a class="slot available" href="${slot.bookingUrl}" target="_blank" rel="noopener" title="${label} · 예약하기" aria-label="예약하기"></a>`;
+      }
+      return `<span class="slot ${status}" title="${label}"></span>`;
+    }
+
+    function renderMatrix(matrix) {
+      const headerCells = matrix.rows
+        .map((row) => `<th class="bay-col">${formatBayLabel(row.name)}번</th>`)
+        .join("");
+
+      const bodyRows = matrix.hours.map((hour) => {
+        const cells = matrix.rows
+          .map((row) => {
+            const slot = row.hours.find(
+              (item) => item.hour === hour.hour && item.nextDay === hour.nextDay,
+            );
+            return `<td class="bay-col">${renderSlotCell(slot)}</td>`;
+          })
+          .join("");
+        return `<tr><td class="time-col">${formatHourLabel(hour)}</td>${cells}</tr>`;
+      }).join("");
+
+      return `
+        <section class="matrix-card">
+          <div class="matrix-wrap">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th class="time-col">시간</th>
+                  ${headerCells}
+                </tr>
+              </thead>
+              <tbody>${bodyRows}</tbody>
+            </table>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-swatch available"></span>예약 가능</span>
+            <span class="legend-item"><span class="legend-swatch booked"></span>예약 마감</span>
+            <span class="legend-item"><span class="legend-swatch closed"></span>예약 불가</span>
+          </div>
+        </section>
+      `;
+    }
+
+    function showLoading() {
+      results.innerHTML = Array.from({ length: 3 }, () => '<div class="skeleton"></div>').join("");
+      statusBar.textContent = "조회 중...";
+      statusBar.classList.remove("error");
+      submitBtn.disabled = true;
+    }
+
+    async function loadAvailability() {
+      const date = dateInput.value;
+      const params = new URLSearchParams({ date });
+
+      showLoading();
+
+      try {
+        const res = await fetch(`/api/availability?${params}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "조회에 실패했습니다.");
+        }
+
+        if (data.bookingUrl) {
+          bookingLink.href = data.bookingUrl;
+        }
+
+        if (!data.matrix) {
+          throw new Error("예약 현황을 불러오지 못했습니다.");
+        }
+
+        results.innerHTML = renderMatrix(data.matrix);
+        footerNote.textContent = "네이버 비공식 API 기반 · 선택일 06시~익일 05시 기준";
+        const updated = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        statusBar.textContent = `${data.businessName} · 조회 완료 (${updated})`;
+      } catch (err) {
+        results.innerHTML = `<div class="empty-state">${err.message}</div>`;
+        statusBar.textContent = "";
+        statusBar.classList.add("error");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    document.getElementById("search-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      loadAvailability();
+    });
+
+    let appVersion = null;
+    const VERSION_POLL_MS = 30_000;
+
+    async function checkForNewVersion() {
+      try {
+        const res = await fetch(`/version.json?t=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) {
+          return;
+        }
+        const { version } = await res.json();
+        if (!version) {
+          return;
+        }
+        if (appVersion === null) {
+          appVersion = version;
+          return;
+        }
+        if (version !== appVersion) {
+          window.location.reload();
+        }
+      } catch {
+        // ignore transient network errors
+      }
+    }
+
+    function startVersionWatcher() {
+      if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+        return;
+      }
+      checkForNewVersion();
+      setInterval(checkForNewVersion, VERSION_POLL_MS);
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+          checkForNewVersion();
+        }
+      });
+    }
+
+    let deferredInstallPrompt = null;
+    const installBtn = document.getElementById("install-btn");
+
+    function isStandaloneApp() {
+      return window.matchMedia("(display-mode: standalone)").matches
+        || window.navigator.standalone === true;
+    }
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      if (!isStandaloneApp()) {
+        installBtn.hidden = false;
+      }
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!deferredInstallPrompt) {
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").catch(() => {
+          // ignore registration errors in unsupported contexts
+        });
+      });
+    }
+
+    loadAvailability();
+    startVersionWatcher();
+  </script>
+</body>
+</html>
