@@ -1,4 +1,4 @@
-const CACHE_NAME = "car-bath-shell-481655d";
+const CACHE_NAME = "car-bath-shell-aa846b2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
