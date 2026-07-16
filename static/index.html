@@ -75,12 +75,11 @@
     .container {
       max-width: 920px;
       margin: 0 auto;
-      padding: 32px 20px 48px;
+      padding: 24px 20px 48px;
     }
 
     header {
-      margin-bottom: 40px;
-      padding-bottom: 28px;
+      margin-bottom: 16px;
     }
 
     .header-row {
@@ -133,24 +132,21 @@
       color: var(--ink);
     }
 
+    h1 a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    h1 a:hover {
+      color: var(--red);
+    }
+
     .subtitle {
       color: var(--ink-secondary);
       font-size: 0.875rem;
       font-weight: 400;
       max-width: 28rem;
-    }
-
-    .subtitle a {
-      color: var(--ink);
-      font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid var(--line-strong);
-      transition: color 0.15s ease, border-color 0.15s ease;
-    }
-
-    .subtitle a:hover {
-      color: var(--red);
-      border-color: var(--red);
     }
 
     .header-actions {
@@ -806,12 +802,11 @@
 
     @media (max-width: 480px) {
       .container {
-        padding: 24px 16px 36px;
+        padding: 20px 16px 36px;
       }
 
       header {
-        margin-bottom: 28px;
-        padding-bottom: 20px;
+        margin-bottom: 12px;
       }
 
       h1 {
@@ -865,11 +860,10 @@
           </div>
           <div>
             <p class="brand-eyebrow">Car Bath · Self Service</p>
-            <h1>카바스</h1>
-            <p class="subtitle">
-              실내 셀프세차장 베이별 실시간 예약 현황<br>
-              <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">Naver Booking</a>
-            </p>
+            <h1>
+              <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">카바스</a>
+            </h1>
+            <p class="subtitle">실내 셀프세차장 베이별 실시간 예약 현황</p>
           </div>
         </div>
         <div class="header-actions">
