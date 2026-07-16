@@ -21,10 +21,12 @@ function gitSha() {
   }
 }
 
-const version = isDev ? "dev" : gitSha() ?? String(Date.now());
+const builtAt = new Date().toISOString();
+const sha = gitSha();
+const version = isDev ? "dev" : sha ? `${sha}@${builtAt}` : builtAt;
 const payload = {
   version,
-  builtAt: new Date().toISOString(),
+  builtAt,
 };
 
 writeFileSync(output, `${JSON.stringify(payload, null, 2)}\n`);

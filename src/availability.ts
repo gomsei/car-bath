@@ -68,6 +68,7 @@ interface MatrixSlot {
   hour: number;
   nextDay: boolean;
   status: SlotStatus;
+  startDateTime?: string;
   bookingUrl?: string;
 }
 
@@ -172,10 +173,37 @@ async function fetchHourlySlots(bizItemId: string, day: string): Promise<HourlyS
   return data.schedule.bizItemSchedule.hourly ?? [];
 }
 
+function slotStartDateTime(targetDate: string, hour: number, nextDay: boolean): string {
+  const date = nextDay ? addDays(targetDate, 1) : targetDate;
+  return `${date}T${String(hour).padStart(2, "0")}:00:00+09:00`;
+}
+
+function normalizeDateTime(value: string): string {
+  const trimmed = value.trim().replace(" ", "T");
+  if (/[+-]\d{2}:\d{2}$/.test(trimmed) || trimmed.endsWith("Z")) {
+    return trimmed;
+  }
+  return `${trimmed}+09:00`;
+}
+
 function buildBookingUrl(bizItemId: string, unitStartTime: string): string {
-  const startDateTime = unitStartTime.trim().replace(" ", "T");
+  const startDateTime = normalizeDateTime(unitStartTime);
   const base = `https://m.booking.naver.com/booking/${BUSINESS_TYPE_ID}/bizes/${BUSINESS_ID}/items/${bizItemId}`;
   return `${base}?startDateTime=${encodeURIComponent(startDateTime)}`;
+}
+
+export function buildNaverBookingUrl(
+  bizItemId: string,
+  startDate: string,
+  startDateTime: string,
+  endDateTime: string,
+): string {
+  const params = new URLSearchParams({
+    startDate,
+    startDateTime: normalizeDateTime(startDateTime),
+    endDateTime: normalizeDateTime(endDateTime),
+  });
+  return `https://m.booking.naver.com/booking/${BUSINESS_TYPE_ID}/bizes/${BUSINESS_ID}/items/${bizItemId}?${params}`;
 }
 
 function buildBookingUrlFromSlot(
@@ -252,6 +280,9 @@ async function fetchDayMatrix(targetDate: string, bizItems?: BizItem[]) {
             status: info.status,
           };
           if (info.status === "available") {
+            matrixSlot.startDateTime = info.unitStartTime
+              ? normalizeDateTime(info.unitStartTime)
+              : slotStartDateTime(targetDate, slot.hour, slot.nextDay);
             matrixSlot.bookingUrl = info.unitStartTime
               ? buildBookingUrl(item.bizItemId, info.unitStartTime)
               : buildBookingUrlFromSlot(
@@ -278,12 +309,33 @@ async function fetchDayMatrix(targetDate: string, bizItems?: BizItem[]) {
   };
 }
 
+async function fetchBizItemLimits(bizItemId: string): Promise<{ minBookingTime: number; maxBookingTime: number }> {
+  const data = await graphql<{
+    bizItem: { minBookingTime: number; maxBookingTime: number };
+  }>(
+    `query bizItemLimits($input: BizItemParams!) {
+      bizItem(input: $input) { minBookingTime maxBookingTime }
+    }`,
+    { input: { bizItemId, businessId: BUSINESS_ID } },
+  );
+  return {
+    minBookingTime: data.bizItem.minBookingTime || 1,
+    maxBookingTime: data.bizItem.maxBookingTime || 24,
+  };
+}
+
 export async function fetchAvailability(start: string) {
   const bizItems = await fetchBizItems();
+  const bays = garageBizItems(bizItems);
+  const limits = bays.length > 0
+    ? await fetchBizItemLimits(bays[0].bizItemId)
+    : { minBookingTime: 1, maxBookingTime: 24 };
   return {
     businessId: BUSINESS_ID,
     businessName: "카바스 실내셀프세차장",
     bookingUrl: BOOKING_URL,
+    minBookingTime: limits.minBookingTime,
+    maxBookingTime: limits.maxBookingTime,
     view: "matrix",
     matrix: await fetchDayMatrix(start, bizItems),
   };

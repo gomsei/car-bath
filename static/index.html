@@ -5,36 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>카바스 세차장 예약 현황</title>
   <meta name="description" content="카바스 실내셀프세차장 베이별 예약 현황">
-  <meta name="theme-color" content="#059669">
+  <meta name="theme-color" content="#0D0D0D">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="카바스 예약">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icons/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #eef2f6;
-      --bg-accent: #e8f5ef;
-      --surface: #ffffff;
-      --surface-muted: #f8fafc;
-      --text: #0f172a;
-      --text-secondary: #334155;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --border-strong: #cbd5e1;
-      --primary: #059669;
-      --primary-hover: #047857;
-      --primary-soft: #d1fae5;
-      --danger: #e11d48;
-      --danger-soft: #ffe4e6;
-      --neutral: #94a3b8;
-      --neutral-soft: #f1f5f9;
-      --radius: 16px;
-      --radius-sm: 12px;
-      --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 12px 32px rgba(15, 23, 42, 0.08);
-      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+      --red: #E30613;
+      --red-hover: #C00510;
+      --red-soft: rgba(227, 6, 19, 0.07);
+      --red-muted: rgba(227, 6, 19, 0.14);
+      --ink: #0D0D0D;
+      --ink-secondary: #3D3D3D;
+      --ink-tertiary: #767676;
+      --paper: #FAFAF8;
+      --surface: #FFFFFF;
+      --surface-elevated: #FFFFFF;
+      --line: rgba(13, 13, 13, 0.08);
+      --line-strong: rgba(13, 13, 13, 0.14);
+      --neutral-soft: #F0F0EE;
+      --neutral: #B8B8B4;
+      --danger: #E30613;
+      --danger-soft: rgba(227, 6, 19, 0.1);
+      --radius: 2px;
+      --radius-md: 4px;
+      --radius-pill: 999px;
+      --shadow: 0 24px 64px rgba(13, 13, 13, 0.08);
+      --shadow-sm: 0 2px 8px rgba(13, 13, 13, 0.04);
+      --font: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+      --tracking: 0.14em;
+      --tracking-tight: -0.03em;
     }
 
     * {
@@ -44,104 +51,129 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-      background:
-        radial-gradient(circle at top left, var(--bg-accent) 0%, transparent 42%),
-        linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
-      color: var(--text);
+      font-family: var(--font);
+      background: var(--paper);
+      color: var(--ink);
       line-height: 1.5;
       min-height: 100vh;
       min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--red);
+      z-index: 200;
     }
 
     .container {
-      max-width: 960px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 20px 16px 28px;
+      padding: 32px 20px 48px;
     }
 
     header {
-      margin-bottom: 16px;
+      margin-bottom: 40px;
+      padding-bottom: 28px;
     }
 
     .header-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 16px;
     }
 
     .brand-mark {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      overflow: hidden;
+      width: 48px;
+      height: 48px;
       flex-shrink: 0;
-      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.28);
-      border: 1px solid rgba(5, 150, 105, 0.18);
-      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      border-radius: var(--radius-md);
     }
 
-    .brand-mark svg {
-      width: 100%;
-      height: 100%;
-      display: block;
+    .red-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(227, 6, 19, 0.2);
+    }
+
+    .brand-eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: var(--tracking);
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+      margin-bottom: 6px;
     }
 
     h1 {
-      font-size: 1.375rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
-      color: var(--text);
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      color: var(--ink);
     }
 
     .subtitle {
-      color: var(--muted);
+      color: var(--ink-secondary);
       font-size: 0.875rem;
+      font-weight: 400;
+      max-width: 28rem;
     }
 
     .subtitle a {
-      color: var(--primary);
+      color: var(--ink);
       font-weight: 600;
       text-decoration: none;
+      border-bottom: 1px solid var(--line-strong);
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
 
     .subtitle a:hover {
-      text-decoration: underline;
+      color: var(--red);
+      border-color: var(--red);
     }
 
     .header-actions {
       display: flex;
       gap: 8px;
       flex-shrink: 0;
+      padding-top: 4px;
     }
 
     .controls {
       display: flex;
       flex-wrap: nowrap;
-      gap: 10px;
+      gap: 16px;
       align-items: center;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 14px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
 
     .controls label {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: var(--text-secondary);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: var(--tracking);
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -149,132 +181,221 @@
     .date-field {
       flex: 1;
       min-width: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 6px 8px;
+    }
+
+    .date-nav-group {
+      position: absolute;
+      inset: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .date-nav-group > * {
+      pointer-events: auto;
+    }
+
+    .date-center {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       gap: 8px;
+      justify-content: center;
+      max-width: calc(100% - 96px);
+    }
+
+    .date-input-wrap {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
     }
 
     .date-field input[type="date"] {
-      flex: 1;
-      min-width: 0;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
+      width: auto;
+      min-width: 8.75rem;
+      padding: 8px 0;
+      border: none;
+      border-radius: 0;
+      font-family: var(--font);
+      font-size: 1.125rem;
       font-weight: 600;
-      color: var(--text);
-      background: var(--surface-muted);
+      letter-spacing: var(--tracking-tight);
+      color: var(--ink);
+      background: transparent;
+      text-align: center;
+      appearance: none;
+      -webkit-appearance: none;
     }
 
     .date-field input[type="date"]:focus {
-      outline: 3px solid rgba(5, 150, 105, 0.18);
-      border-color: var(--primary);
-      background: #fff;
+      outline: none;
+    }
+
+    .date-field input[type="date"]::-webkit-calendar-picker-indicator {
+      display: none;
+      -webkit-appearance: none;
+    }
+
+    .date-field input[type="date"]::-webkit-date-and-time-value {
+      text-align: center;
+    }
+
+    .date-field input[type="date"]::-webkit-datetime-edit {
+      display: inline-flex;
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+    }
+
+    .date-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+      text-align: center;
     }
 
     .date-weekday {
       flex-shrink: 0;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary-hover);
-      font-size: 0.875rem;
-      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       white-space: nowrap;
     }
 
+    .date-shift {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      font-size: 1.375rem;
+      font-weight: 400;
+      line-height: 1;
+      box-shadow: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .date-shift:hover:not(:disabled) {
+      background: var(--red-soft);
+      border-color: var(--red-muted);
+      color: var(--red);
+      transform: none;
+    }
+
     button {
-      padding: 10px 18px;
-      background: var(--primary);
-      color: white;
+      padding: 12px 20px;
+      background: var(--red);
+      color: #fff;
       border: none;
-      border-radius: var(--radius-sm);
-      font-size: 0.9375rem;
-      font-weight: 700;
+      border-radius: var(--radius-md);
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.22);
+      transition: background 0.15s ease, transform 0.15s ease;
+      box-shadow: none;
     }
 
     button:hover:not(:disabled) {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
+      background: var(--red-hover);
+      transform: none;
     }
 
     button:disabled {
-      opacity: 0.55;
+      opacity: 0.35;
       cursor: not-allowed;
-      box-shadow: none;
       transform: none;
     }
 
     .install-btn {
-      padding: 9px 14px;
-      background: #fff;
-      color: var(--primary);
-      border: 1px solid var(--primary-soft);
-      border-radius: var(--radius-sm);
-      font-size: 0.8125rem;
-      font-weight: 700;
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-md);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: var(--tracking);
+      text-transform: uppercase;
       cursor: pointer;
       box-shadow: none;
     }
 
     .install-btn:hover {
-      background: var(--primary-soft);
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
       transform: none;
     }
 
     .status-bar {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 12px;
+      gap: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--ink-tertiary);
+      margin-bottom: 16px;
       min-height: 1.25rem;
     }
 
     .status-bar::before {
       content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
       background: var(--neutral);
       flex-shrink: 0;
     }
 
     .status-bar:not(.error):not(:empty)::before {
-      background: var(--primary);
-      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.15);
+      background: var(--red);
     }
 
     .status-bar.error {
-      color: var(--danger);
+      color: var(--red);
     }
 
     .status-bar.error::before {
-      background: var(--danger);
-      box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.12);
+      background: var(--red);
     }
 
     .empty-state {
       text-align: center;
-      padding: 56px 20px;
-      color: var(--muted);
+      padding: 72px 24px;
+      color: var(--ink-tertiary);
       background: var(--surface);
-      border: 1px dashed var(--border-strong);
-      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      font-size: 0.9375rem;
     }
 
     .skeleton {
-      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background: linear-gradient(90deg, var(--neutral-soft) 25%, #E8E8E6 50%, var(--neutral-soft) 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.2s infinite;
-      border-radius: var(--radius);
-      height: 280px;
+      animation: shimmer 1.4s ease infinite;
+      border-radius: var(--radius-md);
+      height: 320px;
       margin-bottom: 16px;
+      border: 1px solid var(--line);
     }
 
     @keyframes shimmer {
@@ -283,32 +404,58 @@
     }
 
     footer {
-      margin-top: 18px;
-      font-size: 0.75rem;
-      color: var(--muted);
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink-tertiary);
       text-align: center;
+      text-transform: uppercase;
     }
 
     .matrix-card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 2px);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
       overflow: hidden;
+    }
+
+    .matrix-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px 0;
+    }
+
+    .matrix-title {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: var(--tracking);
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+    }
+
+    .matrix-index {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--ink-tertiary);
+      letter-spacing: 0.04em;
     }
 
     .matrix-wrap {
       overflow-x: hidden;
-      padding: 14px 12px 10px;
-      background: var(--surface-muted);
+      padding: 12px 16px 8px;
     }
 
     .matrix-table {
       border-collapse: separate;
-      border-spacing: 6px 4px;
+      border-spacing: 4px 3px;
       table-layout: fixed;
       width: 100%;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
     }
 
     .matrix-table thead th {
@@ -325,34 +472,39 @@
     }
 
     .matrix-table th {
-      color: var(--text-secondary);
-      font-weight: 800;
-      font-size: 0.8125rem;
-      padding: 0 2px 4px;
+      color: var(--ink-secondary);
+      font-weight: 600;
+      font-size: 0.6875rem;
+      letter-spacing: 0.06em;
+      padding: 0 2px 6px;
     }
 
     .matrix-table th.bay-col {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 4px;
-      box-shadow: var(--shadow-sm);
+      background: var(--ink);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 8px 4px;
+      font-weight: 700;
     }
 
     .matrix-table th.time-col {
-      color: var(--muted);
-      font-size: 0.75rem;
+      color: var(--ink-tertiary);
+      font-size: 0.625rem;
+      letter-spacing: var(--tracking);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      text-align: left;
+      padding-left: 2px;
     }
 
     .matrix-table td.time-col {
       width: 11%;
-      font-weight: 800;
-      color: var(--text-secondary);
-      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--ink);
+      font-size: 0.75rem;
       line-height: 1.2;
       padding-right: 4px;
+      text-align: left;
+      font-variant-numeric: tabular-nums;
     }
 
     .matrix-table td.bay-col {
@@ -361,19 +513,20 @@
     }
 
     .matrix-table tbody tr:nth-child(even) td.time-col {
-      color: var(--muted);
+      color: var(--ink-tertiary);
     }
 
     .hour-label .next-day {
       display: inline-block;
       margin-left: 2px;
       padding: 1px 4px;
-      border-radius: 4px;
-      background: #e2e8f0;
-      color: var(--text-secondary);
-      font-size: 0.625rem;
-      font-weight: 800;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.5625rem;
+      font-weight: 700;
       vertical-align: top;
+      letter-spacing: 0;
     }
 
     .slot {
@@ -381,133 +534,323 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 30px;
-      border-radius: 8px;
-      border: 2px solid transparent;
-      font-size: 0.6875rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      min-height: 32px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
     }
 
     .slot.available {
-      background: var(--primary-soft);
-      border-color: #6ee7b7;
-      color: var(--primary-hover);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      background: var(--surface);
+      border-color: var(--line-strong);
+      color: var(--ink);
     }
 
     .slot.booked {
-      background: var(--danger-soft);
-      border-color: #fda4af;
-      color: #be123c;
+      background: var(--red-muted);
+      border-color: transparent;
+      color: var(--red);
     }
 
     .slot.closed {
       background: var(--neutral-soft);
-      border-color: var(--border);
+      border-color: transparent;
       color: var(--neutral);
     }
 
-    a.slot.available {
+    a.slot.available,
+    button.slot.available {
       cursor: pointer;
       text-decoration: none;
     }
 
-    a.slot.available::after {
-      content: "예약";
+    a.slot.available::after,
+    button.slot.available::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
     }
 
-    a.slot.available:hover {
-      background: #a7f3d0;
-      border-color: var(--primary);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(5, 150, 105, 0.18);
+    a.slot.available:hover,
+    button.slot.available:hover {
+      background: var(--red-soft);
+      border-color: var(--red);
+      transform: none;
     }
 
-    a.slot.available:active {
-      transform: translateY(0);
+    a.slot.available:hover::after,
+    button.slot.available:hover::after {
+      transform: scale(1.35);
+      box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.15);
+    }
+
+    a.slot.available:active,
+    button.slot.available:active {
+      transform: scale(0.97);
     }
 
     .slot.booked::after {
-      content: "마감";
+      content: "×";
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1;
     }
 
     .slot.closed::after {
       content: "—";
+      font-weight: 400;
     }
 
     .legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      padding: 12px 16px 16px;
-      background: #fff;
-      border-top: 1px solid var(--border);
+      gap: 16px;
+      padding: 14px 20px 18px;
+      background: var(--paper);
+      border-top: 1px solid var(--line);
     }
 
     .legend-item {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: var(--surface-muted);
-      border: 1px solid var(--border);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-secondary);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-secondary);
     }
 
     .legend-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 4px;
-      border: 2px solid transparent;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .legend-swatch.available {
-      background: var(--primary-soft);
-      border-color: #6ee7b7;
+      background: var(--red);
     }
 
     .legend-swatch.booked {
-      background: var(--danger-soft);
-      border-color: #fda4af;
+      background: var(--red-muted);
+      border: 1px solid var(--red-muted);
     }
 
     .legend-swatch.closed {
       background: var(--neutral-soft);
-      border-color: var(--border-strong);
+    }
+
+    button.slot.available {
+      font: inherit;
+      appearance: none;
+    }
+
+    .booking-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.55);
+      backdrop-filter: blur(4px);
+    }
+
+    .booking-modal[hidden] {
+      display: none;
+    }
+
+    .booking-dialog {
+      width: min(100%, 440px);
+      background: var(--surface);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      border-top: 3px solid var(--red);
+      box-shadow: var(--shadow);
+      padding: 28px 24px 20px;
+      animation: slideUp 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .booking-dialog h2 {
+      font-size: 1.375rem;
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+      margin-bottom: 6px;
+    }
+
+    .booking-summary {
+      color: var(--ink-secondary);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .booking-field {
+      margin-bottom: 20px;
+      border: none;
+    }
+
+    .booking-field legend {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: var(--tracking);
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+      margin-bottom: 12px;
+    }
+
+    .duration-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .duration-option {
+      padding: 10px 16px;
+      background: var(--surface);
+      color: var(--ink-secondary);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-md);
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: none;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .duration-option:hover {
+      transform: none;
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .duration-option.selected {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .booking-end-time {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .booking-note {
+      font-size: 0.8125rem;
+      color: var(--ink-tertiary);
+      margin-bottom: 24px;
+      line-height: 1.55;
+    }
+
+    .booking-note a {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .booking-note a:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    .booking-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .booking-actions button {
+      flex: 1;
+    }
+
+    .booking-cancel {
+      padding: 12px 20px;
+      background: transparent;
+      color: var(--ink-secondary);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-md);
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .booking-cancel:hover {
+      background: var(--neutral-soft);
+      border-color: var(--ink);
+      color: var(--ink);
+      transform: none;
     }
 
     @media (max-width: 480px) {
       .container {
-        padding: 16px 12px 24px;
+        padding: 24px 16px 36px;
+      }
+
+      header {
+        margin-bottom: 28px;
+        padding-bottom: 20px;
       }
 
       h1 {
-        font-size: 1.125rem;
+        font-size: 1.5rem;
       }
 
       .brand-mark {
         width: 40px;
         height: 40px;
-        border-radius: 12px;
+      }
+
+      .red-dot {
+        width: 12px;
+        height: 12px;
+      }
+
+      .date-field input[type="date"] {
+        font-size: 1rem;
       }
 
       .slot {
-        min-height: 26px;
-        font-size: 0.625rem;
-      }
-
-      a.slot.available::after {
-        content: "";
+        min-height: 28px;
       }
 
       .slot.booked::after,
       .slot.closed::after {
         content: "";
+      }
+
+      .matrix-header {
+        padding: 12px 16px 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -518,21 +861,14 @@
       <div class="header-row">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
-              <rect width="512" height="512" rx="112" fill="#059669"/>
-              <path fill="#ffffff" d="M128 300c0-66 54-120 120-120h16c66 0 120 54 120 120v24H128v-24zm40 0c0-44 36-80 80-80h16c44 0 80 36 80 80v8H168v-8zm88-112a24 24 0 1 1 0 48 24 24 0 0 1 0-48zm-72 0a24 24 0 1 1 0 48 24 24 0 0 1 0-48zm144 0a24 24 0 1 1 0 48 24 24 0 0 1 0-48z"/>
-              <path fill="#d1fae5" d="M152 356h208l16 36c6 14-4 28-19 28H155c-15 0-25-14-19-28l16-36z"/>
-              <circle cx="176" cy="392" r="28" fill="#ffffff"/>
-              <circle cx="336" cy="392" r="28" fill="#ffffff"/>
-              <circle cx="176" cy="392" r="12" fill="#047857"/>
-              <circle cx="336" cy="392" r="12" fill="#047857"/>
-            </svg>
+            <span class="red-dot"></span>
           </div>
           <div>
-            <h1>카바스 세차장</h1>
+            <p class="brand-eyebrow">Car Bath · Self Service</p>
+            <h1>카바스</h1>
             <p class="subtitle">
-              실시간 베이 예약 현황 ·
-              <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">네이버 예약</a>
+              실내 셀프세차장 베이별 실시간 예약 현황<br>
+              <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">Naver Booking</a>
             </p>
           </div>
         </div>
@@ -543,10 +879,18 @@
     </header>
 
     <div class="controls" id="search-form">
-      <label for="date">조회 날짜</label>
+      <label for="date">Date</label>
       <div class="date-field">
-        <input type="date" id="date" name="date" required>
-        <span class="date-weekday" id="date-weekday"></span>
+        <div class="date-center">
+          <div class="date-input-wrap">
+            <input type="date" id="date" name="date" required autocomplete="off">
+          </div>
+          <span class="date-weekday" id="date-weekday"></span>
+        </div>
+        <div class="date-nav-group">
+          <button type="button" class="date-shift" id="date-prev" aria-label="하루 전">‹</button>
+          <button type="button" class="date-shift" id="date-next" aria-label="하루 후">›</button>
+        </div>
       </div>
     </div>
 
@@ -558,28 +902,263 @@
     </footer>
   </div>
 
+  <div id="booking-modal" class="booking-modal" hidden>
+    <div class="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+      <h2 id="booking-title">예약하기</h2>
+      <p class="booking-summary" id="booking-summary"></p>
+      <fieldset class="booking-field">
+        <legend>이용 시간</legend>
+        <div class="duration-options" id="duration-options"></div>
+      </fieldset>
+      <p class="booking-end-time" id="booking-end-time"></p>
+      <p class="booking-note">
+        네이버 예약 페이지로 이동합니다. 자동 설정을 하면 예약 확인 화면까지 바로 넘어갑니다.
+        <a href="/autoclick.html">자동 이동 설정 (1회)</a>
+        · 설정 없으면 <strong>다음</strong> 버튼 한 번 필요
+      </p>
+      <div class="booking-actions">
+        <button type="button" class="booking-cancel" id="booking-cancel">취소</button>
+        <button type="button" id="booking-confirm">예약하기</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const SLOT_LABEL = { available: "예약 가능", booked: "예약 마감", closed: "예약 불가" };
     const WEEKDAY_KO = ["일", "월", "화", "수", "목", "금", "토"];
 
     const dateInput = document.getElementById("date");
+    const datePrev = document.getElementById("date-prev");
+    const dateNext = document.getElementById("date-next");
     const dateWeekday = document.getElementById("date-weekday");
     const statusBar = document.getElementById("status-bar");
     const results = document.getElementById("results");
     const bookingLink = document.getElementById("booking-link");
     const footerNote = document.getElementById("footer-note");
+    const bookingModal = document.getElementById("booking-modal");
+    const bookingSummary = document.getElementById("booking-summary");
+    const durationOptions = document.getElementById("duration-options");
+    const bookingEndTime = document.getElementById("booking-end-time");
+    const bookingCancel = document.getElementById("booking-cancel");
+    const bookingConfirm = document.getElementById("booking-confirm");
 
-    dateInput.value = new Date().toISOString().slice(0, 10);
+    const BUSINESS_TYPE_ID = 10;
+    const BUSINESS_ID = "193155";
+    const NAVER_BOOKING_ORIGIN = "https://m.booking.naver.com";
+
+    let currentAvailability = null;
+    let pendingBooking = null;
+    let selectedDurationHours = 1;
+
+    function addDays(dateStr, offset) {
+      const [year, month, day] = dateStr.split("-").map(Number);
+      const date = new Date(year, month - 1, day + offset);
+      return date.toLocaleDateString("en-CA");
+    }
+
+    function slotStartDateTime(targetDate, hour, nextDay) {
+      const date = nextDay ? addDays(targetDate, 1) : targetDate;
+      return `${date}T${String(hour).padStart(2, "0")}:00:00+09:00`;
+    }
+
+    function addHoursToDateTime(startDateTime, hours) {
+      const match = startDateTime.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
+      if (!match) {
+        return startDateTime;
+      }
+      const [, datePart, hourPart, minutePart] = match;
+      const [year, month, day] = datePart.split("-").map(Number);
+      const totalMinutes = Number(hourPart) * 60 + Number(minutePart) + hours * 60;
+      const end = new Date(year, month - 1, day, 0, totalMinutes);
+      const endDate = end.toLocaleDateString("en-CA");
+      const endHour = String(end.getHours()).padStart(2, "0");
+      const endMinute = String(end.getMinutes()).padStart(2, "0");
+      return `${endDate}T${endHour}:${endMinute}:00+09:00`;
+    }
+
+    function formatDateTimeLabel(dateTime) {
+      const match = dateTime.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+      if (!match) {
+        return dateTime;
+      }
+      const [, , month, day, hour, minute] = match;
+      return `${Number(month)}월 ${Number(day)}일 ${Number(hour)}:${minute}`;
+    }
+
+    function buildNaverBookingUrl(bizItemId, startDate, startDateTime, endDateTime) {
+      const params = new URLSearchParams({
+        startDate,
+        startDateTime,
+        endDateTime,
+      });
+      if (localStorage.getItem("carbath-autoclick") === "1") {
+        params.set("carbathAuto", "1");
+      }
+      return `${NAVER_BOOKING_ORIGIN}/booking/${BUSINESS_TYPE_ID}/bizes/${BUSINESS_ID}/items/${bizItemId}?${params}`;
+    }
+
+    function openNaverBooking(url) {
+      window.location.assign(url);
+    }
+
+    function maxConsecutiveAvailableHours(row, startIndex) {
+      let count = 0;
+      for (let index = startIndex; index < row.hours.length; index += 1) {
+        if (row.hours[index].status !== "available") {
+          break;
+        }
+        count += 1;
+      }
+      return count;
+    }
+
+    function formatSlotLabel(slot, targetDate) {
+      const date = slot.nextDay ? addDays(targetDate, 1) : targetDate;
+      const [year, month, day] = date.split("-").map(Number);
+      const weekday = WEEKDAY_KO[new Date(year, month - 1, day).getDay()];
+      const dayLabel = slot.nextDay ? `${month}/${day}(+)` : `${month}/${day}`;
+      const hourLabel = slot.nextDay ? `${slot.hour}시(+)` : `${slot.hour}시`;
+      return `${dayLabel}(${weekday}) ${hourLabel}`;
+    }
+
+    function closeBookingModal() {
+      bookingModal.hidden = true;
+      pendingBooking = null;
+    }
+
+    function renderDurationButtons(maxHours, minHours) {
+      durationOptions.innerHTML = "";
+      for (let hours = minHours; hours <= maxHours; hours += 1) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `duration-option${hours === selectedDurationHours ? " selected" : ""}`;
+        button.textContent = hours === 1 ? "1시간" : `${hours}시간`;
+        button.addEventListener("click", () => {
+          selectedDurationHours = hours;
+          renderDurationButtons(maxHours, minHours);
+          updateBookingEndTime();
+        });
+        durationOptions.appendChild(button);
+      }
+    }
+
+    function updateBookingEndTime() {
+      if (!pendingBooking) {
+        return;
+      }
+      const endDateTime = addHoursToDateTime(pendingBooking.startDateTime, selectedDurationHours);
+      bookingEndTime.textContent = `종료: ${formatDateTimeLabel(endDateTime)}`;
+    }
+
+    function openBookingModal(rowIndex, slotIndex) {
+      if (!currentAvailability?.matrix) {
+        return;
+      }
+
+      const row = currentAvailability.matrix.rows[rowIndex];
+      const slot = row.hours[slotIndex];
+      if (!slot || slot.status !== "available") {
+        return;
+      }
+
+      const targetDate = currentAvailability.matrix.date;
+      const minHours = currentAvailability.minBookingTime || 1;
+      const maxHoursLimit = currentAvailability.maxBookingTime || 24;
+      const consecutiveHours = maxConsecutiveAvailableHours(row, slotIndex);
+      const maxHours = Math.max(minHours, Math.min(maxHoursLimit, consecutiveHours));
+
+      if (maxHours < minHours) {
+        statusBar.textContent = "연속으로 예약 가능한 시간이 없습니다.";
+        statusBar.classList.add("error");
+        return;
+      }
+
+      selectedDurationHours = minHours;
+      pendingBooking = {
+        bizItemId: row.bizItemId,
+        bayName: row.name,
+        startDate: targetDate,
+        startDateTime: slot.startDateTime || slotStartDateTime(targetDate, slot.hour, slot.nextDay),
+        slotLabel: formatSlotLabel(slot, targetDate),
+      };
+
+      bookingSummary.textContent = `${formatBayLabel(row.name)}번 · ${pendingBooking.slotLabel}`;
+      renderDurationButtons(maxHours, minHours);
+      updateBookingEndTime();
+      bookingModal.hidden = false;
+    }
+
+    function confirmBooking() {
+      if (!pendingBooking) {
+        return;
+      }
+
+      const endDateTime = addHoursToDateTime(pendingBooking.startDateTime, selectedDurationHours);
+      const bookingUrl = buildNaverBookingUrl(
+        pendingBooking.bizItemId,
+        pendingBooking.startDate,
+        pendingBooking.startDateTime,
+        endDateTime,
+      );
+
+      closeBookingModal();
+      openNaverBooking(bookingUrl);
+    }
+
+    bookingCancel.addEventListener("click", closeBookingModal);
+    bookingConfirm.addEventListener("click", confirmBooking);
+    bookingModal.addEventListener("click", (event) => {
+      if (event.target === bookingModal) {
+        closeBookingModal();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !bookingModal.hidden) {
+        closeBookingModal();
+      }
+    });
+
+    results.addEventListener("click", (event) => {
+      const button = event.target.closest("button.slot.available");
+      if (!button) {
+        return;
+      }
+      openBookingModal(Number(button.dataset.row), Number(button.dataset.slot));
+    });
+
+    function todayIso() {
+      return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Seoul" });
+    }
+
+    function setDefaultDate() {
+      dateInput.value = todayIso();
+      updateDateWeekday();
+    }
 
     function updateDateWeekday() {
       const value = dateInput.value;
       if (!value) {
         dateWeekday.textContent = "";
+        datePrev.disabled = true;
         return;
       }
       const [year, month, day] = value.split("-").map(Number);
       const weekday = WEEKDAY_KO[new Date(year, month - 1, day).getDay()];
       dateWeekday.textContent = `${weekday}요일`;
+      datePrev.disabled = value <= todayIso();
+    }
+
+    function shiftDate(offset) {
+      const value = dateInput.value;
+      if (!value) {
+        return;
+      }
+      const next = addDays(value, offset);
+      if (offset < 0 && next < todayIso()) {
+        return;
+      }
+      dateInput.value = next;
+      onDateChange();
     }
 
     function onDateChange() {
@@ -589,8 +1168,18 @@
       }
     }
 
-    updateDateWeekday();
+    setDefaultDate();
     dateInput.addEventListener("change", onDateChange);
+    datePrev.addEventListener("click", () => shiftDate(-1));
+    dateNext.addEventListener("click", () => shiftDate(1));
+
+    window.addEventListener("pageshow", () => {
+      const today = todayIso();
+      if (dateInput.value !== today) {
+        setDefaultDate();
+        loadAvailability();
+      }
+    });
 
     function formatHourLabel(slot) {
       if (slot.nextDay) {
@@ -603,11 +1192,11 @@
       return name.replace("번", "");
     }
 
-    function renderSlotCell(slot) {
+    function renderSlotCell(slot, rowIndex, slotIndex) {
       const status = slot ? slot.status : "closed";
       const label = SLOT_LABEL[status];
-      if (status === "available" && slot?.bookingUrl) {
-        return `<a class="slot available" href="${slot.bookingUrl}" target="_blank" rel="noopener" title="${label} · 예약하기" aria-label="예약하기"></a>`;
+      if (status === "available") {
+        return `<button type="button" class="slot available" data-row="${rowIndex}" data-slot="${slotIndex}" title="${label} · 예약하기" aria-label="예약하기"></button>`;
       }
       return `<span class="slot ${status}" title="${label}"></span>`;
     }
@@ -619,11 +1208,12 @@
 
       const bodyRows = matrix.hours.map((hour) => {
         const cells = matrix.rows
-          .map((row) => {
-            const slot = row.hours.find(
+          .map((row, rowIndex) => {
+            const slotIndex = row.hours.findIndex(
               (item) => item.hour === hour.hour && item.nextDay === hour.nextDay,
             );
-            return `<td class="bay-col">${renderSlotCell(slot)}</td>`;
+            const slot = slotIndex >= 0 ? row.hours[slotIndex] : null;
+            return `<td class="bay-col">${renderSlotCell(slot, rowIndex, slotIndex)}</td>`;
           })
           .join("");
         return `<tr><td class="time-col">${formatHourLabel(hour)}</td>${cells}</tr>`;
@@ -631,6 +1221,10 @@
 
       return `
         <section class="matrix-card">
+          <div class="matrix-header">
+            <span class="matrix-title">Bay Availability</span>
+            <span class="matrix-index">01 — Schedule</span>
+          </div>
           <div class="matrix-wrap">
             <table class="matrix-table">
               <thead>
@@ -680,6 +1274,8 @@
           throw new Error("예약 현황을 불러오지 못했습니다.");
         }
 
+        currentAvailability = data;
+        closeBookingModal();
         results.innerHTML = renderMatrix(data.matrix);
         footerNote.textContent = "네이버 비공식 API 기반 · 선택일 06시~익일 05시 기준";
         const updated = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -693,8 +1289,17 @@
       }
     }
 
-    let appVersion = null;
-    const VERSION_POLL_MS = 30_000;
+    let deployId = null;
+    const VERSION_POLL_MS = 15_000;
+    let reloadScheduled = false;
+
+    function reloadForNewVersion() {
+      if (reloadScheduled) {
+        return;
+      }
+      reloadScheduled = true;
+      window.location.reload();
+    }
 
     async function checkForNewVersion() {
       try {
@@ -702,30 +1307,54 @@
         if (!res.ok) {
           return;
         }
-        const { version } = await res.json();
-        if (!version) {
+        const data = await res.json();
+        const nextId = data.builtAt || data.version;
+        if (!nextId) {
           return;
         }
-        if (appVersion === null) {
-          appVersion = version;
+        if (deployId === null) {
+          deployId = nextId;
           return;
         }
-        if (version !== appVersion) {
-          window.location.reload();
+        if (nextId !== deployId) {
+          reloadForNewVersion();
         }
       } catch {
         // ignore transient network errors
       }
     }
 
+    function watchServiceWorker(registration) {
+      registration.addEventListener("updatefound", () => {
+        const worker = registration.installing;
+        if (!worker) {
+          return;
+        }
+        worker.addEventListener("statechange", () => {
+          if (worker.state === "installed" && navigator.serviceWorker.controller) {
+            worker.postMessage({ type: "SKIP_WAITING" });
+          }
+        });
+      });
+    }
+
     function startVersionWatcher() {
       if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
         return;
       }
+
       checkForNewVersion();
       setInterval(checkForNewVersion, VERSION_POLL_MS);
+
       document.addEventListener("visibilitychange", () => {
         if (document.visibilityState === "visible") {
+          checkForNewVersion();
+          navigator.serviceWorker?.ready.then((registration) => registration.update()).catch(() => {});
+        }
+      });
+
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
           checkForNewVersion();
         }
       });
@@ -763,10 +1392,25 @@
     });
 
     if ("serviceWorker" in navigator) {
+      let swRefreshing = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (swRefreshing) {
+          return;
+        }
+        swRefreshing = true;
+        reloadForNewVersion();
+      });
+
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js").catch(() => {
-          // ignore registration errors in unsupported contexts
-        });
+        navigator.serviceWorker.register("/sw.js")
+          .then((registration) => {
+            watchServiceWorker(registration);
+            setInterval(() => registration.update(), VERSION_POLL_MS);
+            return registration.update();
+          })
+          .catch(() => {
+            // ignore registration errors in unsupported contexts
+          });
       });
     }
 

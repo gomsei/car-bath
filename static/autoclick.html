@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카바스 자동 예약 설정</title>
+  <meta name="theme-color" content="#0D0D0D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E30613;
+      --red-hover: #C00510;
+      --ink: #0D0D0D;
+      --ink-secondary: #3D3D3D;
+      --ink-tertiary: #767676;
+      --paper: #FAFAF8;
+      --surface: #FFFFFF;
+      --line: rgba(13, 13, 13, 0.08);
+      --line-strong: rgba(13, 13, 13, 0.14);
+      --radius: 4px;
+      --font: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+      --tracking: 0.14em;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 32px 20px 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--red);
+    }
+
+    .card {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: var(--tracking);
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    p, li {
+      color: var(--ink-secondary);
+      font-size: 0.9375rem;
+    }
+
+    p { margin-bottom: 16px; }
+
+    ol {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+
+    li { margin-bottom: 10px; }
+
+    a.button {
+      display: inline-block;
+      padding: 14px 24px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background 0.15s ease;
+    }
+
+    a.button:hover {
+      background: var(--red-hover);
+    }
+
+    code {
+      background: var(--paper);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 0.875rem;
+      border: 1px solid var(--line);
+    }
+
+    .note {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--paper);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      font-size: 0.875rem;
+      color: var(--ink-secondary);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: var(--ink);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .back-link:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="eyebrow">Setup · One-time</p>
+    <h1>예약 확인 화면까지 자동 이동</h1>
+    <p>
+      네이버 보안상 카바스 앱에서 직접 &quot;다음&quot; 버튼을 누를 수 없습니다.
+      아래 스크립트를 <strong>1회</strong> 설치하면, 예약 확인 화면까지 자동으로 넘어갑니다.
+      네이버 로그인 정보도 그대로 유지됩니다.
+    </p>
+
+    <ol>
+      <li><strong>iPhone</strong>: App Store에서 <strong>Userscripts</strong> 앱 설치</li>
+      <li><strong>Android</strong>: Firefox + <strong>Tampermonkey</strong> 설치</li>
+      <li>아래 버튼으로 스크립트 추가</li>
+      <li>Userscripts / Tampermonkey에서 스크립트 활성화</li>
+      <li>카바스 앱에서 다시 예약하기</li>
+    </ol>
+
+    <a class="button" href="/car-bath-naver.user.js">스크립트 설치하기</a>
+
+    <div class="note">
+      스크립트를 설치하지 않으면 네이버 페이지에서 <strong>다음</strong> 버튼을 한 번 눌러야 합니다.
+      PWA(홈 화면 앱)에서는 스크립트가 동작하지 않을 수 있으니, Safari/Chrome에서 열어주세요.
+    </div>
+
+    <a class="back-link" href="/">← 예약 현황으로 돌아가기</a>
+  </div>
+</body>
+</html>

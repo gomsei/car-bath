@@ -1,10 +1,10 @@
-const CACHE_NAME = "car-bath-shell-f780064";
+const CACHE_NAME = "car-bath-shell-86825e9@2026-07-16T15:40:48.867Z";
+
+const SHELL_ASSETS = ["/manifest.webmanifest", "/icons/icon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) =>
-      cache.addAll(["/", "/index.html", "/manifest.webmanifest", "/icons/icon.svg"]),
-    ),
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_ASSETS)),
   );
   self.skipWaiting();
 });
@@ -18,6 +18,12 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -26,7 +32,14 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname.startsWith("/api/") || url.pathname === "/version.json") {
+  if (
+    url.pathname.startsWith("/api/")
+    || url.pathname === "/version.json"
+    || url.pathname === "/sw.js"
+    || request.mode === "navigate"
+    || url.pathname === "/"
+    || url.pathname.endsWith(".html")
+  ) {
     event.respondWith(fetch(request));
     return;
   }
@@ -40,6 +53,6 @@ self.addEventListener("fetch", (event) => {
         }
         return response;
       })
-      .catch(() => caches.match(request).then((cached) => cached ?? caches.match("/index.html"))),
+      .catch(() => caches.match(request)),
   );
 });
