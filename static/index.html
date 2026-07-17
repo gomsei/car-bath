@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
+<script>
+  (function () {
+    const stored = localStorage.getItem("carbath-theme");
+    if (stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  })();
+</script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>카바스 세차장 예약 현황</title>
   <meta name="description" content="카바스 실내셀프세차장 베이별 예약 현황">
+  <meta name="app-version" content="2eaaf5c@2026-07-17T05:48:28.970Z">
   <meta name="theme-color" content="#1e3a5f">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -71,8 +80,6 @@
 
     header {
       margin-bottom: 20px;
-      padding-bottom: 18px;
-      border-bottom: 3px double var(--border);
     }
 
     .header-row {
@@ -132,17 +139,116 @@
       color: var(--forest);
     }
 
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.875rem;
-      font-weight: 400;
-    }
-
     .header-actions {
       display: flex;
+      align-items: center;
       gap: 8px;
       flex-shrink: 0;
       padding-top: 4px;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      background: var(--parchment);
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .icon-btn svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    .icon-btn:hover:not(:disabled) {
+      background: var(--navy-soft);
+      border-color: var(--navy);
+      color: var(--navy-deep);
+      transform: none;
+    }
+
+    .icon-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .icon-btn.is-loading svg {
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .theme-switch {
+      display: flex;
+      gap: 4px;
+      padding: 2px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .theme-btn {
+      box-shadow: none;
+      border: 1px solid transparent;
+    }
+
+    .theme-btn[aria-pressed="true"] {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy-deep);
+    }
+
+    .theme-btn[aria-pressed="true"]:hover:not(:disabled) {
+      background: var(--navy-deep);
+      color: #fff;
+      border-color: var(--navy-deep);
+    }
+
+    [data-theme="dark"] {
+      --navy: #7eb3e8;
+      --navy-deep: #5a94cc;
+      --navy-soft: #1a2d42;
+      --cream: #1a1714;
+      --cream-dark: #252019;
+      --parchment: #221e1a;
+      --forest: #5ec48a;
+      --forest-hover: #4aad76;
+      --forest-soft: #1a3028;
+      --burgundy: #e08896;
+      --burgundy-soft: #3a2028;
+      --gold: #c9a24e;
+      --ink: #e8e0d6;
+      --ink-secondary: #c4b8a8;
+      --muted: #8a8078;
+      --border: #3d3830;
+      --border-dark: #524a40;
+      --neutral-soft: #2e2a26;
+      --neutral: #6a6258;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    [data-theme="dark"] body {
+      background-image: linear-gradient(180deg, #1e1b17 0%, var(--cream) 40%, #141210 100%);
+    }
+
+    [data-theme="dark"] a.slot.available:hover,
+    [data-theme="dark"] button.slot.available:hover {
+      background: #2a4a38;
+    }
+
+    [data-theme="dark"] .booking-modal {
+      background: rgba(0, 0, 0, 0.55);
     }
 
     .controls {
@@ -775,7 +881,6 @@
 
       header {
         margin-bottom: 16px;
-        padding-bottom: 14px;
       }
 
       h1 {
@@ -838,10 +943,36 @@
             <h1>
               <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">카바스</a>
             </h1>
-            <p class="subtitle">베이별 실시간 예약 현황</p>
           </div>
         </div>
         <div class="header-actions">
+          <div class="theme-switch" role="group" aria-label="테마 선택">
+            <button type="button" class="icon-btn theme-btn" id="theme-light" aria-label="라이트 모드" aria-pressed="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </button>
+            <button type="button" class="icon-btn theme-btn" id="theme-dark" aria-label="다크 모드" aria-pressed="false">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </button>
+          </div>
+          <button type="button" class="icon-btn" id="refresh-btn" aria-label="새로고침">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </button>
           <button type="button" class="install-btn" id="install-btn" hidden>앱 설치</button>
         </div>
       </div>
@@ -910,6 +1041,10 @@
     const bookingEndTime = document.getElementById("booking-end-time");
     const bookingCancel = document.getElementById("booking-cancel");
     const bookingConfirm = document.getElementById("booking-confirm");
+    const themeLight = document.getElementById("theme-light");
+    const themeDark = document.getElementById("theme-dark");
+    const refreshBtn = document.getElementById("refresh-btn");
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
     const BUSINESS_TYPE_ID = 10;
     const BUSINESS_ID = "193155";
@@ -1219,13 +1354,22 @@
       statusBar.textContent = "조회 중...";
       statusBar.classList.remove("error");
       dateInput.disabled = true;
+      refreshBtn.disabled = true;
+      refreshBtn.classList.add("is-loading");
     }
 
-    async function loadAvailability() {
+    async function loadAvailability(options = {}) {
+      const silent = options.silent === true;
       const date = dateInput.value;
       const params = new URLSearchParams({ date });
 
-      showLoading();
+      if (!date) {
+        return;
+      }
+
+      if (!silent) {
+        showLoading();
+      }
 
       try {
         const res = await fetch(`/api/availability?${params}`);
@@ -1249,18 +1393,69 @@
         footerNote.textContent = "네이버 비공식 API 기반 · 선택일 06시~익일 05시 기준";
         const updated = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
         statusBar.textContent = `${data.businessName} · 조회 완료 (${updated})`;
+        statusBar.classList.remove("error");
       } catch (err) {
-        results.innerHTML = `<div class="empty-state">${err.message}</div>`;
-        statusBar.textContent = "";
-        statusBar.classList.add("error");
+        if (!silent) {
+          results.innerHTML = `<div class="empty-state">${err.message}</div>`;
+          statusBar.textContent = "";
+          statusBar.classList.add("error");
+        }
       } finally {
-        dateInput.disabled = false;
+        if (!silent) {
+          dateInput.disabled = false;
+          refreshBtn.disabled = false;
+          refreshBtn.classList.remove("is-loading");
+        }
       }
     }
 
-    let deployId = null;
-    const VERSION_POLL_MS = 15_000;
+    function isDarkTheme() {
+      return document.documentElement.getAttribute("data-theme") === "dark";
+    }
+
+    function updateThemeColor() {
+      themeColorMeta.content = isDarkTheme() ? "#141210" : "#1e3a5f";
+    }
+
+    function updateThemeButtons() {
+      const dark = isDarkTheme();
+      themeLight.setAttribute("aria-pressed", dark ? "false" : "true");
+      themeDark.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+      }
+      localStorage.setItem("carbath-theme", theme);
+      updateThemeColor();
+      updateThemeButtons();
+    }
+
+    themeLight.addEventListener("click", () => {
+      applyTheme("light");
+    });
+
+    themeDark.addEventListener("click", () => {
+      applyTheme("dark");
+    });
+
+    refreshBtn.addEventListener("click", () => {
+      if (dateInput.value) {
+        loadAvailability();
+      }
+    });
+
+    updateThemeColor();
+    updateThemeButtons();
+
+    let deployId = document.querySelector('meta[name="app-version"]')?.getAttribute("content") || null;
+    const VERSION_POLL_MS = 30_000;
+    const REFRESH_MS = 60_000;
     let reloadScheduled = false;
+    let availabilityTimer = null;
 
     function reloadForNewVersion() {
       if (reloadScheduled) {
@@ -1272,12 +1467,12 @@
 
     async function checkForNewVersion() {
       try {
-        const res = await fetch(`/version.json?t=${Date.now()}`, { cache: "no-store" });
+        const res = await fetch("/api/version", { cache: "no-store" });
         if (!res.ok) {
           return;
         }
         const data = await res.json();
-        const nextId = data.builtAt || data.version;
+        const nextId = data.v;
         if (!nextId) {
           return;
         }
@@ -1307,6 +1502,23 @@
       });
     }
 
+    function startAvailabilityRefresh() {
+      stopAvailabilityRefresh();
+      availabilityTimer = setInterval(() => {
+        if (document.visibilityState !== "visible") {
+          return;
+        }
+        loadAvailability({ silent: true });
+      }, REFRESH_MS);
+    }
+
+    function stopAvailabilityRefresh() {
+      if (availabilityTimer !== null) {
+        clearInterval(availabilityTimer);
+        availabilityTimer = null;
+      }
+    }
+
     function startVersionWatcher() {
       if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
         return;
@@ -1315,19 +1527,25 @@
       checkForNewVersion();
       setInterval(checkForNewVersion, VERSION_POLL_MS);
 
-      document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible") {
-          checkForNewVersion();
-          navigator.serviceWorker?.ready.then((registration) => registration.update()).catch(() => {});
-        }
-      });
-
       window.addEventListener("pageshow", (event) => {
         if (event.persisted) {
           checkForNewVersion();
         }
       });
     }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        loadAvailability({ silent: true });
+        startAvailabilityRefresh();
+        if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+          checkForNewVersion();
+          navigator.serviceWorker?.ready.then((registration) => registration.update()).catch(() => {});
+        }
+        return;
+      }
+      stopAvailabilityRefresh();
+    });
 
     let deferredInstallPrompt = null;
     const installBtn = document.getElementById("install-btn");
@@ -1362,6 +1580,11 @@
 
     if ("serviceWorker" in navigator) {
       let swRefreshing = false;
+      navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data?.type === "NEW_VERSION") {
+          reloadForNewVersion();
+        }
+      });
       navigator.serviceWorker.addEventListener("controllerchange", () => {
         if (swRefreshing) {
           return;
@@ -1384,6 +1607,7 @@
     }
 
     loadAvailability();
+    startAvailabilityRefresh();
     startVersionWatcher();
   </script>
 </body>

@@ -1,4 +1,4 @@
-const CACHE_NAME = "car-bath-shell-729a1cb@2026-07-17T03:47:32.954Z";
+const CACHE_NAME = "car-bath-shell-2eaaf5c@2026-07-17T05:48:28.970Z";
 
 const SHELL_ASSETS = ["/manifest.webmanifest", "/icons/icon.svg"];
 
@@ -11,9 +11,19 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))),
-    ),
+    caches.keys()
+      .then((keys) => {
+        const staleKeys = keys.filter((key) => key !== CACHE_NAME);
+        return Promise.all(staleKeys.map((key) => caches.delete(key))).then(() => staleKeys.length > 0);
+      })
+      .then((hadStaleCaches) => {
+        if (!hadStaleCaches) {
+          return;
+        }
+        return self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+          clients.forEach((client) => client.postMessage({ type: "NEW_VERSION" }));
+        });
+      }),
   );
   self.clients.claim();
 });
@@ -34,7 +44,6 @@ self.addEventListener("fetch", (event) => {
 
   if (
     url.pathname.startsWith("/api/")
-    || url.pathname === "/version.json"
     || url.pathname === "/sw.js"
     || request.mode === "navigate"
     || url.pathname === "/"

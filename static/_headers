@@ -7,7 +7,7 @@
 /manifest.webmanifest
   Cache-Control: no-cache
 
-/version.json
+/.build-time
   Cache-Control: no-store
 
 /api/*
