@@ -5,43 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>카바스 세차장 예약 현황</title>
   <meta name="description" content="카바스 실내셀프세차장 베이별 예약 현황">
-  <meta name="theme-color" content="#0D0D0D">
+  <meta name="theme-color" content="#1e3a5f">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="카바스 예약">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="세차장 예약">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icons/icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red: #E30613;
-      --red-hover: #C00510;
-      --red-soft: rgba(227, 6, 19, 0.07);
-      --red-muted: rgba(227, 6, 19, 0.14);
-      --ink: #0D0D0D;
-      --ink-secondary: #3D3D3D;
-      --ink-tertiary: #767676;
-      --paper: #FAFAF8;
-      --surface: #FFFFFF;
-      --surface-elevated: #FFFFFF;
-      --line: rgba(13, 13, 13, 0.08);
-      --line-strong: rgba(13, 13, 13, 0.14);
-      --neutral-soft: #F0F0EE;
-      --neutral: #B8B8B4;
-      --danger: #E30613;
-      --danger-soft: rgba(227, 6, 19, 0.1);
-      --radius: 2px;
-      --radius-md: 4px;
-      --radius-pill: 999px;
-      --shadow: 0 24px 64px rgba(13, 13, 13, 0.08);
-      --shadow-sm: 0 2px 8px rgba(13, 13, 13, 0.04);
-      --font: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
-      --tracking: 0.14em;
-      --tracking-tight: -0.03em;
+      --navy: #1e3a5f;
+      --navy-deep: #152a45;
+      --navy-soft: #e8eef5;
+      --cream: #f5f0e6;
+      --cream-dark: #e8e0d2;
+      --parchment: #fffdf8;
+      --forest: #2d6a4f;
+      --forest-hover: #245a42;
+      --forest-soft: #dceee4;
+      --burgundy: #8b3a4a;
+      --burgundy-soft: #f5e8eb;
+      --gold: #a67c2e;
+      --ink: #2c2416;
+      --ink-secondary: #4a4338;
+      --muted: #7a7266;
+      --border: #c9bfad;
+      --border-dark: #a89b88;
+      --neutral-soft: #ebe6dc;
+      --neutral: #9a9286;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow: 0 4px 20px rgba(30, 58, 95, 0.1);
+      --shadow-sm: 0 1px 4px rgba(44, 36, 22, 0.08);
+      --font-serif: "Noto Serif KR", Georgia, "Times New Roman", serif;
+      --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * {
@@ -51,85 +52,74 @@
     }
 
     body {
-      font-family: var(--font);
-      background: var(--paper);
+      font-family: var(--font-sans);
+      background: var(--cream);
+      background-image:
+        linear-gradient(180deg, #faf6ee 0%, var(--cream) 40%, #ebe4d6 100%);
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.55;
       min-height: 100vh;
       min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--red);
-      z-index: 200;
     }
 
     .container {
-      max-width: 920px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 24px 20px 48px;
+      padding: 28px 20px 40px;
     }
 
     header {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 3px double var(--border);
     }
 
     .header-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 20px;
+      gap: 16px;
     }
 
     .brand {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: 14px;
     }
 
     .brand-mark {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--ink);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: var(--shadow-sm);
+      background: var(--navy);
     }
 
-    .red-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--red);
-      box-shadow: 0 0 0 6px rgba(227, 6, 19, 0.2);
+    .brand-mark svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
     .brand-eyebrow {
-      font-size: 0.6875rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: var(--tracking);
-      text-transform: uppercase;
-      color: var(--ink-tertiary);
-      margin-bottom: 6px;
+      color: var(--gold);
+      margin-bottom: 4px;
+      letter-spacing: 0.04em;
     }
 
     h1 {
-      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      font-family: var(--font-serif);
+      font-size: clamp(1.625rem, 5vw, 2rem);
       font-weight: 700;
-      letter-spacing: var(--tracking-tight);
-      line-height: 1.1;
-      margin-bottom: 8px;
-      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 6px;
+      color: var(--navy);
     }
 
     h1 a {
@@ -139,14 +129,13 @@
     }
 
     h1 a:hover {
-      color: var(--red);
+      color: var(--forest);
     }
 
     .subtitle {
-      color: var(--ink-secondary);
+      color: var(--muted);
       font-size: 0.875rem;
       font-weight: 400;
-      max-width: 28rem;
     }
 
     .header-actions {
@@ -159,17 +148,20 @@
     .controls {
       display: flex;
       flex-wrap: nowrap;
-      gap: 16px;
+      gap: 12px;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
     }
 
     .controls label {
-      font-size: 0.6875rem;
+      font-size: 0.8125rem;
       font-weight: 600;
-      letter-spacing: var(--tracking);
-      text-transform: uppercase;
-      color: var(--ink-tertiary);
+      color: var(--navy);
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -181,16 +173,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 52px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      padding: 6px 8px;
+      min-height: 48px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px 6px;
     }
 
     .date-nav-group {
       position: absolute;
-      inset: 6px 8px;
+      inset: 4px 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -208,7 +200,7 @@
       align-items: center;
       gap: 8px;
       justify-content: center;
-      max-width: calc(100% - 96px);
+      max-width: calc(100% - 88px);
     }
 
     .date-input-wrap {
@@ -220,14 +212,13 @@
     .date-field input[type="date"] {
       width: auto;
       min-width: 8.75rem;
-      padding: 8px 0;
+      padding: 6px 0;
       border: none;
       border-radius: 0;
-      font-family: var(--font);
-      font-size: 1.125rem;
+      font-family: var(--font-sans);
+      font-size: 1.0625rem;
       font-weight: 600;
-      letter-spacing: var(--tracking-tight);
-      color: var(--ink);
+      color: var(--navy);
       background: transparent;
       text-align: center;
       appearance: none;
@@ -260,138 +251,136 @@
 
     .date-weekday {
       flex-shrink: 0;
-      padding: 6px 12px;
-      border-radius: var(--radius-pill);
-      background: var(--ink);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      background: var(--navy);
       color: #fff;
-      font-size: 0.6875rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.06em;
       white-space: nowrap;
     }
 
     .date-shift {
       flex-shrink: 0;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       padding: 0;
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid transparent;
-      border-radius: var(--radius-md);
-      font-size: 1.375rem;
+      background: var(--parchment);
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1.25rem;
       font-weight: 400;
       line-height: 1;
-      box-shadow: none;
+      box-shadow: var(--shadow-sm);
       transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
     .date-shift:hover:not(:disabled) {
-      background: var(--red-soft);
-      border-color: var(--red-muted);
-      color: var(--red);
+      background: var(--navy-soft);
+      border-color: var(--navy);
+      color: var(--navy-deep);
       transform: none;
     }
 
     button {
-      padding: 12px 20px;
-      background: var(--red);
+      padding: 10px 18px;
+      background: var(--navy);
       color: #fff;
-      border: none;
-      border-radius: var(--radius-md);
-      font-family: var(--font);
-      font-size: 0.8125rem;
+      border: 1px solid var(--navy-deep);
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
       cursor: pointer;
       transition: background 0.15s ease, transform 0.15s ease;
-      box-shadow: none;
+      box-shadow: var(--shadow-sm);
     }
 
     button:hover:not(:disabled) {
-      background: var(--red-hover);
-      transform: none;
+      background: var(--navy-deep);
+      transform: translateY(-1px);
     }
 
     button:disabled {
-      opacity: 0.35;
+      opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
 
     .install-btn {
-      padding: 10px 16px;
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-md);
-      font-size: 0.6875rem;
+      padding: 8px 14px;
+      background: var(--parchment);
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: var(--tracking);
-      text-transform: uppercase;
       cursor: pointer;
       box-shadow: none;
     }
 
     .install-btn:hover {
-      background: var(--ink);
-      color: #fff;
-      border-color: var(--ink);
+      background: var(--navy-soft);
+      border-color: var(--navy);
       transform: none;
     }
 
     .status-bar {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 0.75rem;
+      gap: 8px;
+      font-size: 0.8125rem;
       font-weight: 500;
-      letter-spacing: 0.02em;
-      color: var(--ink-tertiary);
-      margin-bottom: 16px;
+      color: var(--muted);
+      margin-bottom: 14px;
       min-height: 1.25rem;
+      font-style: italic;
     }
 
     .status-bar::before {
       content: "";
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--neutral);
       flex-shrink: 0;
+      border: 1px solid var(--border);
     }
 
     .status-bar:not(.error):not(:empty)::before {
-      background: var(--red);
+      background: var(--forest);
+      border-color: var(--forest);
     }
 
     .status-bar.error {
-      color: var(--red);
+      color: var(--burgundy);
+      font-style: normal;
     }
 
     .status-bar.error::before {
-      background: var(--red);
+      background: var(--burgundy);
+      border-color: var(--burgundy);
     }
 
     .empty-state {
       text-align: center;
-      padding: 72px 24px;
-      color: var(--ink-tertiary);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
+      padding: 56px 24px;
+      color: var(--muted);
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
       font-size: 0.9375rem;
     }
 
     .skeleton {
-      background: linear-gradient(90deg, var(--neutral-soft) 25%, #E8E8E6 50%, var(--neutral-soft) 75%);
+      background: linear-gradient(90deg, var(--neutral-soft) 25%, var(--cream-dark) 50%, var(--neutral-soft) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s ease infinite;
-      border-radius: var(--radius-md);
-      height: 320px;
+      border-radius: var(--radius-lg);
+      height: 300px;
       margin-bottom: 16px;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
     }
 
     @keyframes shimmer {
@@ -400,22 +389,20 @@
     }
 
     footer {
-      margin-top: 32px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-      font-size: 0.6875rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      color: var(--ink-tertiary);
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
       text-align: center;
-      text-transform: uppercase;
     }
 
     .matrix-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
       overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
     .matrix-header {
@@ -423,32 +410,31 @@
       align-items: baseline;
       justify-content: space-between;
       gap: 12px;
-      padding: 16px 20px 0;
+      padding: 14px 18px 0;
     }
 
     .matrix-title {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: var(--tracking);
-      text-transform: uppercase;
-      color: var(--ink-tertiary);
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
     }
 
     .matrix-index {
-      font-size: 0.6875rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      color: var(--ink-tertiary);
-      letter-spacing: 0.04em;
+      color: var(--muted);
     }
 
     .matrix-wrap {
       overflow-x: hidden;
-      padding: 12px 16px 8px;
+      padding: 12px 14px 8px;
+      background: var(--cream);
     }
 
     .matrix-table {
       border-collapse: separate;
-      border-spacing: 4px 3px;
+      border-spacing: 5px 4px;
       table-layout: fixed;
       width: 100%;
       font-size: 0.8125rem;
@@ -469,33 +455,31 @@
 
     .matrix-table th {
       color: var(--ink-secondary);
-      font-weight: 600;
-      font-size: 0.6875rem;
-      letter-spacing: 0.06em;
+      font-weight: 700;
+      font-size: 0.75rem;
       padding: 0 2px 6px;
     }
 
     .matrix-table th.bay-col {
-      background: var(--ink);
+      background: var(--navy);
       color: #fff;
       border-radius: var(--radius);
-      padding: 8px 4px;
-      font-weight: 700;
+      padding: 7px 4px;
+      border: 1px solid var(--navy-deep);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
 
     .matrix-table th.time-col {
-      color: var(--ink-tertiary);
-      font-size: 0.625rem;
-      letter-spacing: var(--tracking);
-      text-transform: uppercase;
+      color: var(--muted);
+      font-size: 0.6875rem;
       text-align: left;
       padding-left: 2px;
     }
 
     .matrix-table td.time-col {
       width: 11%;
-      font-weight: 600;
-      color: var(--ink);
+      font-weight: 700;
+      color: var(--navy);
       font-size: 0.75rem;
       line-height: 1.2;
       padding-right: 4px;
@@ -509,20 +493,19 @@
     }
 
     .matrix-table tbody tr:nth-child(even) td.time-col {
-      color: var(--ink-tertiary);
+      color: var(--muted);
     }
 
     .hour-label .next-day {
       display: inline-block;
       margin-left: 2px;
-      padding: 1px 4px;
-      border-radius: var(--radius);
-      background: var(--ink);
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--navy);
       color: #fff;
       font-size: 0.5625rem;
       font-weight: 700;
       vertical-align: top;
-      letter-spacing: 0;
     }
 
     .slot {
@@ -530,31 +513,29 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 32px;
+      min-height: 30px;
       border-radius: var(--radius);
       border: 1px solid transparent;
       font-size: 0.625rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-weight: 700;
       transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
     }
 
     .slot.available {
-      background: var(--surface);
-      border-color: var(--line-strong);
-      color: var(--ink);
+      background: var(--forest-soft);
+      border-color: #8fc9a8;
+      color: var(--forest);
     }
 
     .slot.booked {
-      background: var(--red-muted);
-      border-color: transparent;
-      color: var(--red);
+      background: var(--burgundy-soft);
+      border-color: #d4a0ab;
+      color: var(--burgundy);
     }
 
     .slot.closed {
       background: var(--neutral-soft);
-      border-color: transparent;
+      border-color: var(--border);
       color: var(--neutral);
     }
 
@@ -566,86 +547,79 @@
 
     a.slot.available::after,
     button.slot.available::after {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--red);
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      content: "예약";
     }
 
     a.slot.available:hover,
     button.slot.available:hover {
-      background: var(--red-soft);
-      border-color: var(--red);
-      transform: none;
-    }
-
-    a.slot.available:hover::after,
-    button.slot.available:hover::after {
-      transform: scale(1.35);
-      box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.15);
+      background: #c8e6d4;
+      border-color: var(--forest);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
     }
 
     a.slot.available:active,
     button.slot.available:active {
-      transform: scale(0.97);
+      transform: translateY(0);
     }
 
     .slot.booked::after {
-      content: "×";
-      font-size: 0.875rem;
-      font-weight: 400;
-      line-height: 1;
+      content: "마감";
     }
 
     .slot.closed::after {
       content: "—";
-      font-weight: 400;
     }
 
     .legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
-      padding: 14px 20px 18px;
-      background: var(--paper);
-      border-top: 1px solid var(--line);
+      gap: 10px;
+      padding: 12px 18px 16px;
+      background: var(--parchment);
+      border-top: 1px solid var(--border);
     }
 
     .legend-item {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.6875rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
+      padding: 5px 10px;
+      border-radius: var(--radius);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--ink-secondary);
     }
 
     .legend-swatch {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
       flex-shrink: 0;
+      border: 1px solid rgba(0, 0, 0, 0.08);
     }
 
     .legend-swatch.available {
-      background: var(--red);
+      background: var(--forest-soft);
+      border-color: #8fc9a8;
     }
 
     .legend-swatch.booked {
-      background: var(--red-muted);
-      border: 1px solid var(--red-muted);
+      background: var(--burgundy-soft);
+      border-color: #d4a0ab;
     }
 
     .legend-swatch.closed {
       background: var(--neutral-soft);
+      border-color: var(--border);
     }
 
     button.slot.available {
       font: inherit;
       appearance: none;
+      box-shadow: none;
     }
 
     .booking-modal {
@@ -656,8 +630,7 @@
       align-items: flex-end;
       justify-content: center;
       padding: 16px;
-      background: rgba(13, 13, 13, 0.55);
-      backdrop-filter: blur(4px);
+      background: rgba(30, 58, 95, 0.45);
     }
 
     .booking-modal[hidden] {
@@ -665,24 +638,26 @@
     }
 
     .booking-dialog {
-      width: min(100%, 440px);
-      background: var(--surface);
-      border-radius: var(--radius-md) var(--radius-md) 0 0;
-      border-top: 3px solid var(--red);
+      width: min(100%, 420px);
+      background: var(--parchment);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      border: 1px solid var(--border);
+      border-bottom: none;
       box-shadow: var(--shadow);
-      padding: 28px 24px 20px;
-      animation: slideUp 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      padding: 24px 22px 18px;
+      animation: slideUp 0.22s ease;
     }
 
     @keyframes slideUp {
-      from { transform: translateY(24px); opacity: 0; }
+      from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
     .booking-dialog h2 {
-      font-size: 1.375rem;
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: var(--tracking-tight);
+      color: var(--navy);
       margin-bottom: 6px;
     }
 
@@ -690,23 +665,21 @@
       color: var(--ink-secondary);
       font-size: 0.9375rem;
       font-weight: 500;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
 
     .booking-field {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border: none;
     }
 
     .booking-field legend {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: var(--tracking);
-      text-transform: uppercase;
-      color: var(--ink-tertiary);
-      margin-bottom: 12px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
     }
 
     .duration-options {
@@ -716,62 +689,59 @@
     }
 
     .duration-option {
-      padding: 10px 16px;
-      background: var(--surface);
+      padding: 9px 14px;
+      background: var(--cream);
       color: var(--ink-secondary);
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-md);
-      font-family: var(--font);
-      font-size: 0.8125rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
       font-weight: 600;
       cursor: pointer;
       box-shadow: none;
-      text-transform: none;
-      letter-spacing: 0;
     }
 
     .duration-option:hover {
       transform: none;
-      border-color: var(--ink);
-      color: var(--ink);
+      border-color: var(--navy);
+      background: var(--navy-soft);
     }
 
     .duration-option.selected {
-      background: var(--ink);
-      border-color: var(--ink);
+      background: var(--navy);
+      border-color: var(--navy-deep);
       color: #fff;
     }
 
     .booking-end-time {
       font-size: 0.875rem;
       font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 12px;
+      color: var(--forest);
+      margin-bottom: 10px;
       font-variant-numeric: tabular-nums;
     }
 
     .booking-note {
       font-size: 0.8125rem;
-      color: var(--ink-tertiary);
-      margin-bottom: 24px;
+      color: var(--muted);
+      margin-bottom: 20px;
       line-height: 1.55;
     }
 
     .booking-note a {
-      color: var(--ink);
+      color: var(--navy);
       font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid var(--line-strong);
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
     .booking-note a:hover {
-      color: var(--red);
-      border-color: var(--red);
+      color: var(--forest);
     }
 
     .booking-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     .booking-actions button {
@@ -779,34 +749,33 @@
     }
 
     .booking-cancel {
-      padding: 12px 20px;
-      background: transparent;
+      padding: 10px 18px;
+      background: var(--cream);
       color: var(--ink-secondary);
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-md);
-      font-family: var(--font);
-      font-size: 0.8125rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
       cursor: pointer;
       box-shadow: none;
     }
 
     .booking-cancel:hover {
       background: var(--neutral-soft);
-      border-color: var(--ink);
+      border-color: var(--border-dark);
       color: var(--ink);
       transform: none;
     }
 
     @media (max-width: 480px) {
       .container {
-        padding: 20px 16px 36px;
+        padding: 20px 16px 32px;
       }
 
       header {
-        margin-bottom: 12px;
+        margin-bottom: 16px;
+        padding-bottom: 14px;
       }
 
       h1 {
@@ -814,13 +783,8 @@
       }
 
       .brand-mark {
-        width: 40px;
-        height: 40px;
-      }
-
-      .red-dot {
-        width: 12px;
-        height: 12px;
+        width: 44px;
+        height: 44px;
       }
 
       .date-field input[type="date"] {
@@ -828,16 +792,19 @@
       }
 
       .slot {
-        min-height: 28px;
+        min-height: 26px;
+        font-size: 0.5625rem;
       }
 
+      a.slot.available::after,
+      button.slot.available::after,
       .slot.booked::after,
       .slot.closed::after {
         content: "";
       }
 
       .matrix-header {
-        padding: 12px 16px 0;
+        padding: 12px 14px 0;
       }
     }
 
@@ -856,14 +823,22 @@
       <div class="header-row">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">
-            <span class="red-dot"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
+              <rect width="512" height="512" fill="#1e3a5f"/>
+              <path fill="#f5f0e6" d="M128 300c0-66 54-120 120-120h16c66 0 120 54 120 120v24H128v-24zm40 0c0-44 36-80 80-80h16c44 0 80 36 80 80v8H168v-8zm88-112a24 24 0 1 1 0 48 24 24 0 0 1 0-48zm-72 0a24 24 0 1 1 0 48 24 24 0 0 1 0-48zm144 0a24 24 0 1 1 0 48 24 24 0 0 1 0-48z"/>
+              <path fill="#a67c2e" d="M152 356h208l16 36c6 14-4 28-19 28H155c-15 0-25-14-19-28l16-36z"/>
+              <circle cx="176" cy="392" r="28" fill="#f5f0e6"/>
+              <circle cx="336" cy="392" r="28" fill="#f5f0e6"/>
+              <circle cx="176" cy="392" r="12" fill="#2d6a4f"/>
+              <circle cx="336" cy="392" r="12" fill="#2d6a4f"/>
+            </svg>
           </div>
           <div>
-            <p class="brand-eyebrow">Car Bath · Self Service</p>
+            <p class="brand-eyebrow">실내 셀프세차장</p>
             <h1>
               <a id="booking-link" href="https://m.booking.naver.com/booking/10/bizes/193155" target="_blank" rel="noopener">카바스</a>
             </h1>
-            <p class="subtitle">실내 셀프세차장 베이별 실시간 예약 현황</p>
+            <p class="subtitle">베이별 실시간 예약 현황</p>
           </div>
         </div>
         <div class="header-actions">
@@ -873,7 +848,7 @@
     </header>
 
     <div class="controls" id="search-form">
-      <label for="date">Date</label>
+      <label for="date">조회 날짜</label>
       <div class="date-field">
         <div class="date-center">
           <div class="date-input-wrap">
@@ -1216,8 +1191,8 @@
       return `
         <section class="matrix-card">
           <div class="matrix-header">
-            <span class="matrix-title">Bay Availability</span>
-            <span class="matrix-index">01 — Schedule</span>
+            <span class="matrix-title">베이 예약 현황</span>
+            <span class="matrix-index">06시 ~ 익일 05시</span>
           </div>
           <div class="matrix-wrap">
             <table class="matrix-table">

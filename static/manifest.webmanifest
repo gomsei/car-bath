@@ -1,13 +1,13 @@
 {
   "name": "카바스 세차장 예약 현황",
-  "short_name": "카바스",
+  "short_name": "세차장 예약",
   "description": "카바스 실내셀프세차장 베이별 예약 현황",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#FAFAF8",
-  "theme_color": "#0D0D0D",
+  "background_color": "#f5f0e6",
+  "theme_color": "#1e3a5f",
   "lang": "ko",
   "icons": [
     {
