@@ -1,0 +1,15 @@
+---
+description: Finish work by committing and deploying to Cloudflare Pages
+alwaysApply: true
+---
+
+# Always deploy when work finishes
+
+When a task that changes the app is done (not a pure Q&A / plan-only turn):
+
+1. Commit the meaningful changes (exclude `.DS_Store` and secrets).
+2. Deploy with `npm run deploy` (runs `predeploy` version stamp, then Wrangler Pages).
+3. Commit the version stamp files updated by deploy (`static/.build-time`, `static/index.html` app-version meta, `static/sw.js` cache name) in a follow-up commit like prior releases.
+4. Tell the user the deploy URL / result.
+
+Do not wait to be asked to deploy. Skip deploy only for read-only questions or when the user explicitly says not to deploy.

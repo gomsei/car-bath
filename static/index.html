@@ -614,6 +614,28 @@
       vertical-align: top;
     }
 
+    .hour-label .now-badge {
+      display: inline-block;
+      margin-left: 2px;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--burgundy);
+      color: #fff;
+      font-size: 0.5625rem;
+      font-weight: 700;
+      vertical-align: top;
+    }
+
+    .matrix-table tbody tr.is-past {
+      opacity: 0.38;
+    }
+
+    .matrix-table tbody tr.is-now td.time-col,
+    .matrix-table tbody tr.is-now:nth-child(even) td.time-col {
+      color: var(--burgundy);
+      font-weight: 800;
+    }
+
     .slot {
       display: flex;
       align-items: center;
@@ -1285,11 +1307,63 @@
       }
     });
 
-    function formatHourLabel(slot) {
-      if (slot.nextDay) {
-        return `<span class="hour-label">${slot.hour}시<span class="next-day">+</span></span>`;
+    function seoulNow() {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Seoul",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        hourCycle: "h23",
+      }).formatToParts(new Date());
+      const get = (type) => parts.find((part) => part.type === type)?.value;
+      return {
+        date: `${get("year")}-${get("month")}-${get("day")}`,
+        hour: Number(get("hour")),
+      };
+    }
+
+    function businessSlotKey(hour, nextDay) {
+      return nextDay ? hour + 24 : hour;
+    }
+
+    function getNowMarker(selectedDate) {
+      const { date: nowDate, hour: nowHour } = seoulNow();
+      const nextDate = addDays(selectedDate, 1);
+
+      if (nowDate === selectedDate && nowHour >= 6) {
+        return { nowKey: nowHour };
       }
-      return `<span class="hour-label">${slot.hour}시</span>`;
+      if (nowDate === nextDate && nowHour < 6) {
+        return { nowKey: nowHour + 24 };
+      }
+      if (nowDate < selectedDate || (nowDate === selectedDate && nowHour < 6)) {
+        return { allFuture: true };
+      }
+      return { allPast: true };
+    }
+
+    function rowTimeRelation(hour, nextDay, marker) {
+      if (marker.allFuture) {
+        return "future";
+      }
+      if (marker.allPast) {
+        return "past";
+      }
+      const key = businessSlotKey(hour, nextDay);
+      if (key < marker.nowKey) {
+        return "past";
+      }
+      if (key === marker.nowKey) {
+        return "now";
+      }
+      return "future";
+    }
+
+    function formatHourLabel(slot, isNow) {
+      const nextDay = slot.nextDay ? '<span class="next-day">+</span>' : "";
+      const nowBadge = isNow ? '<span class="now-badge">지금</span>' : "";
+      return `<span class="hour-label">${slot.hour}시${nextDay}${nowBadge}</span>`;
     }
 
     function formatBayLabel(name) {
@@ -1305,12 +1379,15 @@
       return `<span class="slot ${status}" title="${label}"></span>`;
     }
 
-    function renderMatrix(matrix) {
+    function renderMatrix(matrix, selectedDate) {
       const headerCells = matrix.rows
         .map((row) => `<th class="bay-col">${formatBayLabel(row.name)}번</th>`)
         .join("");
+      const marker = getNowMarker(selectedDate);
 
       const bodyRows = matrix.hours.map((hour) => {
+        const relation = rowTimeRelation(hour.hour, hour.nextDay, marker);
+        const rowClass = relation === "past" ? "is-past" : relation === "now" ? "is-now" : "";
         const cells = matrix.rows
           .map((row, rowIndex) => {
             const slotIndex = row.hours.findIndex(
@@ -1320,7 +1397,7 @@
             return `<td class="bay-col">${renderSlotCell(slot, rowIndex, slotIndex)}</td>`;
           })
           .join("");
-        return `<tr><td class="time-col">${formatHourLabel(hour)}</td>${cells}</tr>`;
+        return `<tr class="${rowClass}"><td class="time-col">${formatHourLabel(hour, relation === "now")}</td>${cells}</tr>`;
       }).join("");
 
       return `
@@ -1389,7 +1466,7 @@
 
         currentAvailability = data;
         closeBookingModal();
-        results.innerHTML = renderMatrix(data.matrix);
+        results.innerHTML = renderMatrix(data.matrix, date);
         footerNote.textContent = "네이버 비공식 API 기반 · 선택일 06시~익일 05시 기준";
         const updated = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
         statusBar.textContent = `${data.businessName} · 조회 완료 (${updated})`;
