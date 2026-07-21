@@ -644,8 +644,10 @@
       min-height: 30px;
       border-radius: var(--radius);
       border: 1px solid transparent;
-      font-size: 0.625rem;
+      font-size: 0.5rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
       transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
     }
 
@@ -920,14 +922,7 @@
 
       .slot {
         min-height: 26px;
-        font-size: 0.5625rem;
-      }
-
-      a.slot.available::after,
-      button.slot.available::after,
-      .slot.booked::after,
-      .slot.closed::after {
-        content: "";
+        font-size: 0.4375rem;
       }
 
       .matrix-header {
