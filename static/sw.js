@@ -1,4 +1,4 @@
-const CACHE_NAME = "car-bath-shell-6da2b08@2026-07-21T13:08:56.169Z";
+const CACHE_NAME = "car-bath-shell-a49de59@2026-07-21T13:09:46.559Z";
 
 const SHELL_ASSETS = ["/manifest.webmanifest", "/icons/icon.svg"];
 
