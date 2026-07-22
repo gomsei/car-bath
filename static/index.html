@@ -1246,6 +1246,12 @@
     });
 
     results.addEventListener("click", (event) => {
+      if (suppressSlotClick) {
+        suppressSlotClick = false;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
       const button = event.target.closest("button.slot.available");
       if (!button) {
         return;
@@ -1305,8 +1311,12 @@
     let swipeStartX = 0;
     let swipeStartY = 0;
     let swipeTracking = false;
+    let suppressSlotClick = false;
 
     function swipeTargetIgnored(target) {
+      if (target.closest("#results")) {
+        return false;
+      }
       return Boolean(
         target.closest("input, textarea, select, a, button, .booking-modal")
       );
@@ -1344,6 +1354,7 @@
         if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) <= Math.abs(dy)) {
           return;
         }
+        suppressSlotClick = true;
         shiftDate(dx < 0 ? 1 : -1);
       },
       { passive: true }
