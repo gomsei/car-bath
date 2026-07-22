@@ -1300,6 +1300,63 @@
     datePrev.addEventListener("click", () => shiftDate(-1));
     dateNext.addEventListener("click", () => shiftDate(1));
 
+    const swipeRoot = document.querySelector(".container");
+    const SWIPE_THRESHOLD_PX = 48;
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipeTracking = false;
+
+    function swipeTargetIgnored(target) {
+      return Boolean(
+        target.closest("input, textarea, select, a, button, .booking-modal")
+      );
+    }
+
+    swipeRoot.addEventListener(
+      "touchstart",
+      (event) => {
+        if (event.touches.length !== 1 || !bookingModal.hidden) {
+          swipeTracking = false;
+          return;
+        }
+        if (swipeTargetIgnored(event.target)) {
+          swipeTracking = false;
+          return;
+        }
+        swipeStartX = event.touches[0].clientX;
+        swipeStartY = event.touches[0].clientY;
+        swipeTracking = true;
+      },
+      { passive: true }
+    );
+
+    swipeRoot.addEventListener(
+      "touchend",
+      (event) => {
+        if (!swipeTracking || !bookingModal.hidden) {
+          swipeTracking = false;
+          return;
+        }
+        swipeTracking = false;
+        const touch = event.changedTouches[0];
+        const dx = touch.clientX - swipeStartX;
+        const dy = touch.clientY - swipeStartY;
+        if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) <= Math.abs(dy)) {
+          return;
+        }
+        shiftDate(dx < 0 ? 1 : -1);
+      },
+      { passive: true }
+    );
+
+    swipeRoot.addEventListener(
+      "touchcancel",
+      () => {
+        swipeTracking = false;
+      },
+      { passive: true }
+    );
+
     window.addEventListener("pageshow", () => {
       const today = todayIso();
       if (dateInput.value !== today) {
